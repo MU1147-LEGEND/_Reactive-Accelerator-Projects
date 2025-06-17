@@ -1,4 +1,5 @@
 import { StrictMode } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Home from "./App.jsx";
@@ -13,6 +14,14 @@ import Orders from "./Orders.jsx";
 import Profile from "./Profile.jsx";
 import ReturnOrder from "./ReturnOrder.jsx";
 import Setting from "./Setting.jsx";
+import Search from "./Search.jsx";
+import { Suspense } from "react";
+import Loading from "./Loading.jsx";
+import Login from "./Login.jsx";
+import Protected from "./Protected.jsx";
+import AuthRoute from "./AuthRoute.jsx";
+
+const About = React.lazy(() => import("./About.jsx"));
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
@@ -20,15 +29,29 @@ createRoot(document.getElementById("root")).render(
             <Header />
             <Routes>
                 <Route path="/" element={<Home />}></Route>
-                <Route path="/inbox" element={<Inbox />} />
-                <Route path="/setting" element={<Setting />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/dashboard" element={<Dashboard />}>
+                <Route path="inbox" element={<Inbox />} />
+                <Route path="setting" element={<Setting />} />
+                <Route path="cart" element={<Cart />} />
+                <Route path="search" element={<Search />} />
+                <Route element={<AuthRoute />}>
+                    <Route path="protected" element={<Protected />} />
+                </Route>
+                <Route
+                    path="about"
+                    element={
+                        <Suspense fallback={<Loading />}>
+                            {" "}
+                            <About />{" "}
+                        </Suspense>
+                    }
+                />
+                <Route path="dashboard" element={<Dashboard />}>
                     <Route index element={<Profile />} />
                     <Route path="notifications" element={<Notifications />} />
                     <Route path="orders" element={<Orders />} />
                     <Route path="orders/:id" element={<OrderId />} />
                     <Route path="orders/returns" element={<ReturnOrder />} />
+                    <Route path="login" element={<Login />} />
                 </Route>
             </Routes>
         </BrowserRouter>

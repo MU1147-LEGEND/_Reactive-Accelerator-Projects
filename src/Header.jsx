@@ -165,6 +165,45 @@ const Header = () => {
                     <span className="dock-label">Dashboard</span>
                 </button>
             </NavLink>
+
+            <NavLink
+                to="/search"
+                className={({ isActive }) => (isActive ? "dock-active" : "")}
+            >
+                <button className="flex items-center justify-center flex-col">
+                    {/* svg */}
+                    <svg
+                        className="size-[1.2em]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                    >
+                        <g
+                            fill="currentColor"
+                            strokeLinejoin="miter"
+                            strokeLinecap="butt"
+                        >
+                            <path
+                                d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit="10"
+                                strokeWidth="2"
+                            ></path>
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="3"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="square"
+                                strokeMiterlimit="10"
+                                strokeWidth="2"
+                            ></circle>
+                        </g>
+                    </svg>
+                    <span className="dock-label">Search</span>
+                </button>
+            </NavLink>
         </div>
     );
 };

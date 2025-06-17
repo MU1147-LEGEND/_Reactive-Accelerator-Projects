@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -12,6 +12,7 @@ const Home = () => {
                 <button onClick={handleCart} className="btn btn-primary">
                     Add to cart
                 </button>
+                <Link to={"about"}>About</Link>
                 <Outlet />
             </div>
         </>

@@ -16,6 +16,9 @@ const Dashboard = () => {
                     <Link to="orders" className="btn btn-secondary">
                         Orders
                     </Link>
+                    <Link to="login" className="btn btn-secondary">
+                        Login
+                    </Link>
                 </div>
                 <br /> <br />
                 <Outlet />
