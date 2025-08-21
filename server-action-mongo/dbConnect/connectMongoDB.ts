@@ -1,4 +1,4 @@
-import mongoose, { Collection } from "mongoose";
+import mongoose from "mongoose";
 
 const mongoURI: string = process.env.MONGODB_URI || "";
 if (!mongoURI)
@@ -30,7 +30,20 @@ async function connectMongoDB() {
     try {
         cached.connection = await cached.promise;
         connection.isConnected = cached.connection.connections[0].readyState;
-        console.log("connections:", cached.connection.connections);
+        console.log(
+            `MongoDB connected to database: ${cached.connection.connections[0].name}`
+        );
+
+        // List all collections in the database
+        const db = cached.connection.connections[0].db;
+        if (db) {
+            const collections = await db.listCollections().toArray();
+            console.log(
+                `Available collections: ${collections
+                    .map((col) => col.name)
+                    .join(", ")}`
+            );
+        }
     } catch (error) {
         cached.promise = null;
         console.error("MongoDB connection error:", error);

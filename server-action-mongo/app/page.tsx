@@ -1,6 +1,4 @@
 import connectMongoDB from "@/dbConnect/connectMongoDB";
-import Dog from "@/dbModels/Persons";
-import Person from "@/dbModels/Persons";
 import User from "@/dbModels/User";
 import type { FunctionComponent } from "react";
 
@@ -17,8 +15,12 @@ const NewUserForm: FunctionComponent = () => {
         await connectMongoDB();
 
         // add user to database
-        const dog = await new Dog(userData);
-        await dog.save();
+        console.log(
+            `Attempting to save to collection: ${User.collection.name}`
+        ); // print the collection name which is using.
+        
+        const person = await new User(userData);
+        await person.save();
     };
 
     //
