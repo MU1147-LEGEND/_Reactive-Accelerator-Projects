@@ -1,28 +1,9 @@
-import connectMongoDB from "@/dbConnect/connectMongoDB";
-import User from "@/dbModels/User";
 import type { FunctionComponent } from "react";
+import { addUser, getUsers } from "./actions/users";
+import Button from "./ui/Button";
 
-const NewUserForm: FunctionComponent = () => {
-    const addUser = async (formData: FormData): Promise<void> => {
-        "use server";
-
-        const name = formData.get("name");
-        const email = formData.get("email");
-
-        const userData = { name, email };
-
-        // connect with database
-        await connectMongoDB();
-
-        // add user to database
-        console.log(
-            `Attempting to save to collection: ${User.collection.name}`
-        ); // print the collection name which is using.
-        
-        const person = await new User(userData);
-        await person.save();
-    };
-
+const NewUserForm: FunctionComponent = async () => {
+    const users = (await getUsers()) ?? [];
     //
     return (
         <div className="bg-gray-800/70 p-10 rounded-lg w-[50vw] m-auto min-h-screen">
@@ -51,9 +32,13 @@ const NewUserForm: FunctionComponent = () => {
                 </div>
 
                 <div className="my-5 flex flex-col items-baseline ">
-                    <button className=" border py-3 px-5 bg-indigo-400 text-black rounded-lg cursor-pointer hover:scale-105 active:translate-y-1 transition-all duration-200">
+                    {/* <button className=" ">
                         Add User on DB
-                    </button>
+                    </button> */}
+                    <Button className="border py-3 px-5 bg-indigo-400 disabled:bg-gray-400 text-black rounded-lg cursor-pointer hover:scale-105 active:translate-y-1 transition-all duration-200">
+                        {" "}
+                        Add User
+                    </Button>
                 </div>
             </form>
 
@@ -63,37 +48,20 @@ const NewUserForm: FunctionComponent = () => {
                     User List
                 </h2>
 
-                <ul className="list-disc pl-5">
-                    <li>User 1 - email: user1@example.com</li>
-                    <li>User 2 - email: user2@example.com</li>
-                    <li>User 3 - email: user3@example.com</li>
-                    <li>User 1 - email: user1@example.com</li>
-                    <li>User 2 - email: user2@example.com</li>
-                    <li>User 3 - email: user3@example.com</li>
-                    <li>User 1 - email: user1@example.com</li>
-                    <li>User 2 - email: user2@example.com</li>
-                    <li>User 3 - email: user3@example.com</li>
-                    <li>User 1 - email: user1@example.com</li>
-                    <li>User 2 - email: user2@example.com</li>
-                    <li>User 3 - email: user3@example.com</li>
-                    <li>User 1 - email: user1@example.com</li>
-                    <li>User 2 - email: user2@example.com</li>
-                    <li>User 3 - email: user3@example.com</li>
-                    <li>User 1 - email: user1@example.com</li>
-                    <li>User 2 - email: user2@example.com</li>
-                    <li>User 3 - email: user3@example.com</li>
-                    <li>User 1 - email: user1@example.com</li>
-                    <li>User 2 - email: user2@example.com</li>
-                    <li>User 3 - email: user3@example.com</li>
-                    <li>User 1 - email: user1@example.com</li>
-                    <li>User 2 - email: user2@example.com</li>
-                    <li>User 3 - email: user3@example.com</li>
-                    <li>User 1 - email: user1@example.com</li>
-                    <li>User 2 - email: user2@example.com</li>
-                    <li>User 3 - email: user3@example.com</li>
-                    <li>User 1 - email: user1@example.com</li>
-                    <li>User 2 - email: user2@example.com</li>
-                    <li>User 3 - email: user3@example.com</li>
+                <ul className="pl-5">
+                    {users?.length > 0 ? (
+                        users?.map((user) => (
+                            <li
+                                key={user._id ?? user.email}
+                                className="my-5 bg-gray-400/20 p-5 rounded-2xl"
+                            >
+                                <p>Name: {user.name}</p>
+                                <p>Email: {user.email}</p>
+                            </li>
+                        ))
+                    ) : (
+                        <h4>No user found</h4>
+                    )}
                 </ul>
             </div>
         </div>
